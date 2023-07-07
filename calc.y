@@ -6,10 +6,11 @@ extern int yylineno;
 void yyerror(char* s);
 %}
 
-%token TOK_SEMICOLON TOK_ADD TOK_SUB TOK_MUL TOK_DIV TOK_NUM TOK_PRINT
+%token TOK_SEMICOLON TOK_ADD TOK_SUB TOK_MUL TOK_DIV TOK_NUM TOK_ID TOK_TYPE TOK_PRINT
 
 %union {
     int int_val;
+    char var;
 }
 
 %type <int_val> expr TOK_NUM
@@ -24,7 +25,8 @@ stmt:
     ;
 
 expr_stmt:
-    expr TOK_SEMICOLON
+    TOK_TYPE TOK_ID TOK_SEMICOLON
+    | expr TOK_SEMICOLON
     | TOK_PRINT expr TOK_SEMICOLON
     {
         printf("The value is %d\n", $2);

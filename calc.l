@@ -12,6 +12,12 @@ digit	([0-9])
     return TOK_PRINT;
 }
 
+"int" { return TOK_TYPE;     }
+
+[a-zA-Z]	{
+		sscanf(yytext, "%c", &yylval.var);
+		return TOK_ID;
+        }
 
 {digit}+	{
 		sscanf(yytext, "%d", &yylval.int_val);
