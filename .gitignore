@@ -1,0 +1,8 @@
+# Compilation files
+*.tab.*
+*.yy.*
+*.output
+
+# Folders
+Original/
+Test*/
