@@ -8,7 +8,9 @@ digit	([0-9])
 
 %%
 
-"println"       {       return(TOK_PRINTLN);}
+"printvar"|"print"|"println" {
+    return TOK_PRINT;
+}
 
 
 {digit}+	{
