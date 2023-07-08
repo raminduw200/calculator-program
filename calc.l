@@ -2,17 +2,27 @@
 %{
 #include <stdio.h>
 #include "calc.tab.h"
+
+int line_number = 1;
 %}
 
 digit	([0-9])
 
 %%
 
-"printvar"|"print"|"println" {
-    return TOK_PRINT;
-}
+"printvar" 	{	return TOK_PRINT_VAR;	}
+"print" 	{	return TOK_PRINT;		}
 
-"int" { return TOK_TYPE;     }
+"int" 		{	return TOK_INT;			}
+"float" 	{	return TOK_FLOAT;		}
+
+";"	{	return(TOK_SEMICOLON);	}
+
+"="	{	return(TOK_ASSIGN);	}
+"+"	{	return(TOK_ADD);	}
+"-"	{	return(TOK_SUB);	}
+"*"	{	return(TOK_MUL);	}
+"/"	{	return(TOK_DIV);	}
 
 [a-zA-Z]	{
 		sscanf(yytext, "%c", &yylval.var);
@@ -24,14 +34,7 @@ digit	([0-9])
 		return TOK_NUM;
 		}
 
-";"	{	return(TOK_SEMICOLON);	}
-
-"+"	{	return(TOK_ADD);	}
-"-"	{	return(TOK_SUB);	}
-"*"	{	return(TOK_MUL);	}
-"/"	{	return(TOK_DIV);	}
-
-[ \n] 	{}
+[\n] 	{line_number++;}
 
 .	{printf("Invalid character '%c', ignored\n", 
 			yytext[0]);
