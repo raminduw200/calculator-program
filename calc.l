@@ -1,3 +1,12 @@
+/* 
+ * File:   	calc.l
+ * Author: 	Ramindu Walgama, Oshani Wikramasinghe
+ * Index: 	20001959, 20002149
+ * RegNo: 	2020/CS/195, 2020/CS/214
+ * Course: 	SCS3211 Compiler Theory
+ * Created: Wednesday, 28 June 2023 at 11:11
+ */
+
 %option noyywrap
 %{
 #include <stdio.h>
@@ -16,29 +25,45 @@ digit	([0-9])
 "int" 		{	return TOK_INT;			}
 "float" 	{	return TOK_FLOAT;		}
 
-";"	{	return(TOK_SEMICOLON);	}
+"{"			{	return(TOK_LBRACE);		}
+"}"			{	return(TOK_RBRACE);		}
+";"			{	return(TOK_SEMICOLON);	}
 
-"="	{	return(TOK_ASSIGN);	}
-"+"	{	return(TOK_ADD);	}
-"-"	{	return(TOK_SUB);	}
-"*"	{	return(TOK_MUL);	}
-"/"	{	return(TOK_DIV);	}
+"="			{	return(TOK_ASSIGN);		}
+"+"			{	return(TOK_ADD);		}
+"-"			{	return(TOK_SUB);		}
+"*"			{	return(TOK_MUL);		}
+"/"			{	return(TOK_DIV);		}
 
-[a-zA-Z]	{
-		sscanf(yytext, "%c", &yylval.var);
-		return TOK_ID;
-        }
 
-{digit}+	{
-		sscanf(yytext, "%d", &yylval.int_val);
-		return TOK_NUM;
-		}
+{digit}+			{
+						yylval.var.int_val = atoi(yytext);
+						yylval.var.float_val = 0;
+						return TOK_INT_NUM;
+					}
+
+{digit}+"."{digit}+	{
+						yylval.var.float_val = atof(yytext);
+						yylval.var.int_val = 0;
+						return TOK_FLOAT_NUM;
+					}
+
+[a-z][A-Za-z0-9]*	{sscanf(yytext, "%s", &yylval.name);return TOK_ID;}
+([0-9])[A-Za-z0-9]*	{sscanf(yytext, "%s", &yylval.name);return TOK_ID_ERR;}
+
+
 
 [\n] 	{line_number++;}
+[ \t] 	{/* ignore whitespace */}
 
-.	{printf("Invalid character '%c', ignored\n", 
+.		{
+			printf("Invalid character '%c', ignored\n", 
 			yytext[0]);
-	}
+		}
 
 %%
 
+/* 
+ * References: 
+ *  - https://docs.oracle.com/cd/E19504-01/802-5880/lex-6/index.html
+ */
