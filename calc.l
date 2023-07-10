@@ -21,6 +21,7 @@ digit	([0-9])
 
 "printvar" 	{	return TOK_PRINT_VAR;	}
 "print" 	{	return TOK_PRINT;		}
+"main()"	{	return TOK_MAIN; 		}
 
 "int" 		{	return TOK_INT;			}
 "float" 	{	return TOK_FLOAT;		}

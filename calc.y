@@ -3,16 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern int linenum;
+extern int line_number;
 int yylex();
-
-
 %}
 
 %token  TOK_PRINT_VAR TOK_PRINT TOK_MAIN
         TOK_INT TOK_FLOAT
         TOK_LBRACE TOK_RBRACE TOK_SEMICOLON
-        TOK_ASSIGN TOK_ADD TOK_MUL
+        TOK_ASSIGN TOK_ADD TOK_MUL TOK_SUB TOK_DIV
         TOK_INT_NUM TOK_FLOAT_NUM
         TOK_ID TOK_ID_ERR
 
@@ -92,7 +90,7 @@ E:
 
 
 
-%%cd
+%%
 
 int yyerror(char *s)
 {
