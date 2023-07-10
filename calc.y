@@ -1,71 +1,108 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-extern int yylex(void);
-extern int yylineno;
-void yyerror(char* s);
+#include <string.h>
+
+extern int linenum;
+int yylex();
+
+
 %}
 
-%token TOK_SEMICOLON TOK_ADD TOK_SUB TOK_MUL TOK_DIV TOK_NUM TOK_ID TOK_TYPE TOK_PRINT
+%token  TOK_PRINT_VAR TOK_PRINT TOK_MAIN
+        TOK_INT TOK_FLOAT
+        TOK_LBRACE TOK_RBRACE TOK_SEMICOLON
+        TOK_ASSIGN TOK_ADD TOK_MUL
+        TOK_INT_NUM TOK_FLOAT_NUM
+        TOK_ID TOK_ID_ERR
 
-%union {
+%type <string> Prog Stmt 
+%type <int_val> TOK_INT_NUM TOK_FLOAT_NUM E
+%type <name> TOK_ID
+%type <name> TOK_ID_ERR
+
+
+%start Prog
+
+%left PLUS
+%left MULTIPLY
+
+%union{
+	char name[20];
     int int_val;
-    char var;
+    float float_val;
+
 }
 
-%type <int_val> expr TOK_NUM
+
+%type <name> TOK_PRINT_VAR
+%type <name> TOK_PRINT
+%type <name> TOK_MAIN
 
 %left TOK_ADD TOK_SUB
 %left TOK_MUL TOK_DIV
 
 %%
 
-stmt:
-    | stmt expr_stmt
-    ;
+Prog:
+	TOK_MAIN TOK_LBRACE Stmts TOK_RBRACE    { printf("Valid program\n"); }
 
-expr_stmt:
-    TOK_TYPE TOK_ID TOK_SEMICOLON
-    | expr TOK_SEMICOLON
-    | TOK_PRINT expr TOK_SEMICOLON
-    {
-        printf("The value is %d\n", $2);
-    }
-    ;
+;
 
-expr:
-    expr TOK_ADD expr
-    {
-        $$ = $1 + $3;
-    }
-    | expr TOK_SUB expr
-    {
-        $$ = $1 - $3;
-    }
-    | expr TOK_MUL expr
-    {
-        $$ = $1 * $3;
-    }
-    | expr TOK_DIV expr
-    {
-        $$ = $1 / $3;
-    }
-    | TOK_NUM
-    {
-        $$ = $1;
-    }
-    ;
+Stmts: 
+    |Stmt TOK_SEMICOLON Stmts
+;
 
-%%
+Stmt:
+    TOK_INT TOK_ID  { $2.type = 0; }
+    |TOK_FLOAT TOK_ID   { $2.type = 1; }
+    |TOK_ID TOK_ASSIGN E
+    {
+        if ($1.type != $3.type) {
+            fprintf(stderr, "Type error: Assignment mismatch\n");
+            exit(1);
+        }
+    }
+    |TOK_PRINT_VAR TOK_ID   {printf("%s\n", $2);}
+;   
 
-void yyerror(char* s)
+E:
+    TOK_INT_NUM     { $$ = $1; $$->type = 0; }
+    |TOK_FLOAT_NUM  { $$ = $1; $$->type = 1; }
+    |TOK_ID         { $$ = $1; $$->type = $1.type; }
+    |E TOK_ADD E    {
+        if ($1->type == $3->type) {
+            $$ = $1;
+            $$->type = $1->type;
+        } else {
+            fprintf(stderr, "Type error: Addition mismatch\n");
+            exit(1);
+        }
+    }
+    |E TOK_MUL E    {
+        if ($1->type == $3->type) {
+            $$ = $1;
+            $$->type = $1->type;
+        } else {
+            fprintf(stderr, "Type error: Multiplication mismatch\n");
+            exit(1);
+        }
+    }
+;
+
+
+
+%%cd
+
+int yyerror(char *s)
 {
-    fprintf(stderr, "Syntax error at line %d: %s\n", yylineno, s);
-    exit(1);
+	printf("Syntax Error on line %d\n%s\n",linenum, s);
+	return 0;
 }
+
 
 int main()
-{
-    yyparse();
-    return 0;
-}
+    {
+        yyparse();
+        return 0;
+    }
