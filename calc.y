@@ -4,6 +4,8 @@
 #include <string.h>
 
 extern int line_number;
+extern FILE* yyin;
+
 int yylex();
 int search(char var_name_[]);
 void insert(char name_[], int type_, char value_[]);
@@ -265,8 +267,15 @@ void yyerror2(int type_, char *error_, char token_[])
 	exit(0);
 }
 
-int main()
+int main(int argc , char **argv)
 {
+	if(argc > 1) {
+		yyin = fopen(argv[1], "r");
+		if(!yyin) {
+			printf("File not found\n");
+			return 1;
+		}
+	}
     yyparse();
     return 0;
 }
