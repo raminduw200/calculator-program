@@ -258,10 +258,10 @@ void yyerror2(int type_, char *error_, char token_[])
 {
 	switch(type_){
 		case 1:
-			printf("Lexical Error on line - %d: %s\n",line_number, error_);
+			printf("Line - %d: Lexical Error: %s\n",line_number, error_);
 			break;
 		case 2:
-			printf("Line - %d: %s%s\n",line_number, error_, token_);
+			printf("Line - %d: %s%s\n",line_number, token_, error_);
 			break;
 	}
 	exit(0);
