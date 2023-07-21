@@ -1,3 +1,12 @@
+/* 
+ * File:   	calc.l
+ * Author: 	Ramindu Walgama, Oshani Wikramasinghe
+ * Index: 	20001959, 20002149
+ * RegNo: 	2020/CS/195, 2020/CS/214
+ * Course: 	SCS3211 Compiler Theory
+ * Created: Wednesday, 28 June 2023 at 11:11
+ */
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,7 +37,7 @@ struct idarr var_list[20];
 %token  TOK_SEMICOLON
 		TOK_ADD TOK_SUB TOK_MUL TOK_DIV TOK_ASSIGN
 	    TOK_INT TOK_FLOAT TOK_IDENT
-		TOK_PRINT_VAR TOK_PRINT TOK_EXIT TOK_MAIN TOK_LBRACE TOK_RBRACE
+		TOK_PRINT_VAR TOK_MAIN TOK_LBRACE TOK_RBRACE
 		TOK_IDENT_ERR
 %token <var> TOK_NUM TOK_FNUM
 
@@ -113,14 +122,6 @@ Stmt:
 			printf("%s\n", var_list[index_].value);
 		}
 	  }
-	| TOK_PRINT E 
-	{
-		if($2.int_val != 0){
-			printf("%d", $2.int_val);
-		} else {
-			printf("%f", $2.float_val);
-		}
-	}
 ;
 
 
@@ -229,7 +230,7 @@ void assign_value(int type_, char col1_[], char col3_[])
     int var_index = search(col1_);
 
     if(var_index == -1) { // variable not declared
-        yyerror2(2, "Identifier not found - ", col1_);
+        yyerror2(2, " identifier not found", col1_);
     } else {
         // Type check
         switch(type_) {
