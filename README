@@ -41,3 +41,49 @@ else type error}
 E1 * E2 | {if (E1.type==E2.type) then E.type = E1.type;
 else type error}
 ```
+
+## Sample execution output for all test-cases,
+```
+❯ ./calc ./test-cases/program1.txt                                                                       base 13:54:50
+
+❯ ./calc ./test-cases/program2.txt                                                                       base 13:54:58
+3
+
+❯ ./calc ./test-cases/program3.txt                                                                       base 13:55:00
+7
+
+❯ ./calc ./test-cases/program4.txt                                                                       base 13:55:03
+Line - 1: x identifier not found
+
+❯ ./calc ./test-cases/program5.txt                                                                       base 13:55:06
+
+❯ ./calc ./test-cases/program6.txt                                                                       base 13:55:09
+3
+
+❯ ./calc ./test-cases/program7.txt                                                                       base 13:55:12
+7
+
+❯ ./calc ./test-cases/program8.txt                                                                       base 13:55:15
+Line - 1: x identifier not found 
+
+❯ ./calc ./test-cases/program9.txt                                                                       base 13:55:18
+Line - 1: x identifier not found
+
+❯ ./calc ./test-cases/program10.txt                                                                      base 13:55:20
+3
+
+❯ ./calc ./test-cases/program11.txt                                                                      base 13:55:24
+7
+
+❯ ./calc ./test-cases/program12.txt                                                                      base 13:55:26
+Line - 1: x identifier not found
+
+❯ ./calc ./test-cases/program13.txt                                                                      base 13:55:29
+Line - 1: Lexical Error:  - 
+
+❯ ./calc ./test-cases/program14.txt                                                                      base 13:55:31
+Syntax Error on line 2
+
+❯ ./calc ./test-cases/program15.txt                                                                      base 13:55:35
+Syntax Error on line 4
+```
