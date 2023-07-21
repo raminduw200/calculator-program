@@ -108,7 +108,7 @@ Stmt:
 		int index_ = search($2);
 
 		if(index_ == -1){
-			yyerror2(2,"Identifier not defined - ", $2);
+			yyerror2(2," is used but not declared.", $2);
 		} else {
 			printf("%s\n", var_list[index_].value);
 		}
@@ -174,7 +174,7 @@ E:
 		struct var_struct temp;
 
 		if(index_ == -1){
-			yyerror2(2, "Identifier not defined - ", $1);
+			yyerror2(2, " is used but not declared.", $1);
 		} else {
 			if(var_list[index_].type == 0){
 				temp.int_val = atoi(var_list[index_].value);
