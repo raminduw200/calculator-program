@@ -1,4 +1,4 @@
-## Group Details
+# Group Details
 
 | Name                  | Index No |   Registration No | Email                         |
 | --------------------- | -------- | ----------------- | ----------------------------- |
@@ -14,9 +14,30 @@ Run Makefile using below command inorder to compile the flex(calc.l) and bison(c
 > make
 
 Then execute compiled calc file with an input file using,
-> ./calc <input_file>
+> ./calc <path_to/input_file>
 
-where <input_file> is the <b>path to input file</b>
+where <path_to/input_file> is the <b>path to input file</b>
 
-## Briefly describe anything special about your submission that the instructor should take note of.
+# Special Instructions.
 - Program only works with `+` and `*`. Any other operations are not allowed and will prompt a error.
+
+## Grammar:
+
+```
+Prog -> main() {Stmts}
+Stmts -> ε | Stmt; Stmts
+Stmt -> int Id | float Id | Id = E | printvar Id E -> Integer | Float | Id | E + E | E * E Integer -> digit+
+Float -> Integer . Integer
+```
+
+## Type checking,
+```
+Stmt → int Id | {id.type = 0}
+    float Id | {id.type = 1}
+    Id = E {if (Id.type \= E.type) then type error}
+E → Integer | {E.type = 0} Float | {E.type = 1} Id | {E.type = Id.type}
+E1 + E2| {if (E1.type==E2.type) then E.type = E1.type;
+else type error}
+E1 * E2 | {if (E1.type==E2.type) then E.type = E1.type;
+else type error}
+```
