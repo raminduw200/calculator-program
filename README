@@ -1,15 +1,22 @@
-Group Details
+## Group Details
 
-Name                    Index No    Registration no Email
-
-* Ramindu Walgama        20001959    2020/CS/195     2020cs195@stu.ucsc.cmb.ac.lk
-* Oshani Wikramasinghe   20002149    2020/CS/214     2020cs214@stu.ucsc.cmb.ac.lk
+| Name                  | Index No |   Registration No | Email                         |
+| --------------------- | -------- | ----------------- | ----------------------------- |
+| Ramindu Walgama       | 20001959 |   2020/CS/195     | 2020cs195@stu.ucsc.cmb.ac.lk  |
+| Oshani Wikramasinghe  | 20002149 |   2020/CS/214     | 2020cs214@stu.ucsc.cmb.ac.lk  |
 
 Tested operating systems
-linux
+- Linux
+- MacOS
 
-• How to execute your program.
+# Execution steps.
+Run Makefile using below command inorder to compile the flex(calc.l) and bison(calc.y),
+> make
 
+Then execute compiled calc file with an input file using,
+> ./calc <input_file>
 
-• Briefly describe anything special about your submission that the instructor should take note 
-of.
+where <input_file> is the <b>path to input file</b>
+
+## Briefly describe anything special about your submission that the instructor should take note of.
+- Program only works with `+` and `*`. Any other operations are not allowed and will prompt a error.
